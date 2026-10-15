@@ -1,0 +1,136 @@
+{
+  "service": "Inventory Management Backend",
+  "description": "Internal backend documentation describing the inventory REST endpoints, their parameters, request payloads, and response schemas.",
+  "base_url": "https://inventory.example.com/api/v1",
+  "endpoints": [
+    {
+      "endpoint": "/inventory/items",
+      "method": "GET",
+      "summary": "List inventory items",
+      "parameters": [
+        { "name": "page", "location": "query", "type": "integer", "required": false, "default": 1 },
+        { "name": "page_size", "location": "query", "type": "integer", "required": false, "default": 20 },
+        { "name": "category", "location": "query", "type": "string", "required": false }
+      ],
+      "request": null,
+      "response": {
+        "status_code": 200,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "category": { "type": "string" },
+              "quantity": { "type": "integer" },
+              "price": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/inventory/items",
+      "method": "POST",
+      "summary": "Create a new inventory item",
+      "parameters": [],
+      "request": {
+        "schema": {
+          "type": "object",
+          "required": ["name", "quantity", "price"],
+          "properties": {
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "quantity": { "type": "integer", "minimum": 0 },
+            "price": { "type": "number", "minimum": 0 }
+          }
+        }
+      },
+      "response": {
+        "status_code": 201,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "quantity": { "type": "integer" },
+            "price": { "type": "number" }
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/inventory/items/{item_id}",
+      "method": "GET",
+      "summary": "Get a single inventory item by ID",
+      "parameters": [
+        { "name": "item_id", "location": "path", "type": "string", "required": true }
+      ],
+      "request": null,
+      "response": {
+        "status_code": 200,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "quantity": { "type": "integer" },
+            "price": { "type": "number" }
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/inventory/items/{item_id}",
+      "method": "PUT",
+      "summary": "Update an existing inventory item",
+      "parameters": [
+        { "name": "item_id", "location": "path", "type": "string", "required": true }
+      ],
+      "request": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "quantity": { "type": "integer", "minimum": 0 },
+            "price": { "type": "number", "minimum": 0 }
+          }
+        }
+      },
+      "response": {
+        "status_code": 200,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "quantity": { "type": "integer" },
+            "price": { "type": "number" }
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/inventory/items/{item_id}",
+      "method": "DELETE",
+      "summary": "Delete an inventory item",
+      "parameters": [
+        { "name": "item_id", "location": "path", "type": "string", "required": true }
+      ],
+      "request": null,
+      "response": {
+        "status_code": 204,
+        "schema": null
+      }
+    }
+  ],
+  "authentication": {
+    "type": "apiKey",
+    "name": "X-API-Key",
+    "location": "header"
+  }
+}
